@@ -21,7 +21,7 @@ public class Utils {
         } else {
             detectedOS = "windows";
         }
-        return os;
+        return detectedOS;
     }
 
     public static WebDriver initDriver() {
