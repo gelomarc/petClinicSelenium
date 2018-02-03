@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: ru.yandex.qatools.htmlelements:htmlelements-matchers:1.18">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ru.yandex.qatools.htmlelements/htmlelements-matchers/1.18/392a182febb91d6d4c963ba728afac09875fd466/htmlelements-matchers-1.18.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ru.yandex.qatools.htmlelements/htmlelements-matchers/1.18/a600dd1cf1e685ea2b078ae5483a40ec2cf379a3/htmlelements-matchers-1.18-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
