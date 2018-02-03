@@ -26,15 +26,16 @@ public class Utils {
 
     public static WebDriver initDriver() {
         String actualOperationSystem = getOperatingSystemType();
+        String actualDir = System.getProperty("user.dir");
         switch (actualOperationSystem) {
             case "macOS":
-                System.setProperty("webdriver.chrome.driver,", ".\\drivers\\chromedriver_mac");
+                System.setProperty("webdriver.chrome.driver", actualDir + "/drivers/chromedriver_mac");
                 break;
             case "unix":
-                System.setProperty("webdriver.chrome.driver,", ".\\drivers\\chromedriver_unix");
+                System.setProperty("webdriver.chrome.driver", actualDir + "/drivers/chromedriver_unix");
                 break;
             case "windows":
-                System.setProperty("webdriver.chrome.driver,", ".\\drivers\\chromedriver_win.exe");
+                System.setProperty("webdriver.chrome.driver", actualDir + "/drivers/chromedriver_win.exe");
                 break;
         }
 
