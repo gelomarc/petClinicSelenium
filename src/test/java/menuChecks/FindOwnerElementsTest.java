@@ -2,7 +2,6 @@ package menuChecks;
 
 import com.petClinic.pages.FindOwnersPage;
 import com.petClinic.pages.HomePage;
-import com.petClinic.steps.WebDriverSteps;
 import com.petClinic.utils.ScreenshotOnFailTestRule;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -21,51 +20,49 @@ public class FindOwnerElementsTest {
 
     private static FindOwnersPage findOwnersPage = new FindOwnersPage(driver);
 
-    private static WebDriverSteps steps = new WebDriverSteps(driver);
-
     @ClassRule
     public static TestWatcher watcher = new TestWatcher() {
 
         @Override
         protected void starting(Description description) {
-            steps.getPage("localhost:8080");
-            steps.click(homePage.getMenu().getFindOwnersButton());
-            steps.waitForElementVisible(findOwnersPage.getLastElementTextBox(), 2);
+            findOwnersPage.getPage("localhost:8080");
+            findOwnersPage.click(homePage.getMenu().getFindOwnersButton());
+            findOwnersPage.waitForElementVisible(findOwnersPage.getLastElementTextBox(), 2);
         }
 
         @Override
         protected void finished(Description description) {
-            steps.quit();
+            findOwnersPage.quit();
         }
 
     };
 
     @Rule
-    public TestWatcher testRule = new ScreenshotOnFailTestRule(steps);
+    public TestWatcher testRule = new ScreenshotOnFailTestRule(findOwnersPage);
 
 
     @Test
     public void shouldSeeTitle() {
-        steps.shouldSeeText(findOwnersPage.getCommonStaticElements().getTittleMessageLabel(), "Find Owners");
+        findOwnersPage.shouldSeeText(findOwnersPage.getCommonStaticElements().getTittleMessageLabel(), "Find Owners");
     }
 
     @Test
     public void shouldSeeLastNameTextBox() {
-        steps.shouldSee(findOwnersPage.getLastElementTextBox());
+        findOwnersPage.shouldSee(findOwnersPage.getLastElementTextBox());
     }
 
     @Test
     public void shouldSeeFindOwnerButton() {
-        steps.shouldSee(findOwnersPage.getFindOwnerButton());
+        findOwnersPage.shouldSee(findOwnersPage.getFindOwnerButton());
     }
 
     @Test
     public void shouldSeeAddOwnerButton() {
-        steps.shouldSee(findOwnersPage.getAddOwnerButton());
+        findOwnersPage.shouldSee(findOwnersPage.getAddOwnerButton());
     }
 
     @Test
     public void shouldSeeSpringImage() {
-        steps.shouldSee(findOwnersPage.getCommonStaticElements().getSpringImage());
+        findOwnersPage.shouldSee(findOwnersPage.getCommonStaticElements().getSpringImage());
     }
 }

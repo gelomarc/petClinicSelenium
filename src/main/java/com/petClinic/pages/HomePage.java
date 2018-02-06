@@ -5,11 +5,8 @@ import com.petClinic.blocks.Menu;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementDecorator;
-import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementLocatorFactory;
 
-public class HomePage {
+public class HomePage extends BasePage {
 
     private Menu menu;
 
@@ -19,7 +16,7 @@ public class HomePage {
     private WebElement petsImage;
 
     public HomePage(WebDriver driver) {
-        PageFactory.initElements(new HtmlElementDecorator(new HtmlElementLocatorFactory(driver)), this);
+        super(driver);
     }
 
     public Menu getMenu() {

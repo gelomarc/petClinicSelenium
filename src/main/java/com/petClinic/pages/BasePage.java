@@ -1,11 +1,16 @@
-package com.petClinic.steps;
+package com.petClinic.pages;
 
+import com.petClinic.entities.Veterinary;
 import com.petClinic.utils.Utils;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementDecorator;
+import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementLocatorFactory;
 import ru.yandex.qatools.htmlelements.matchers.decorators.TimeoutWaiter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -18,20 +23,21 @@ import static ru.yandex.qatools.htmlelements.matchers.MatcherDecorators.timeoutH
 import static ru.yandex.qatools.htmlelements.matchers.WebElementMatchers.exists;
 import static ru.yandex.qatools.htmlelements.matchers.WebElementMatchers.isDisplayed;
 
-public class WebDriverSteps {
+public class BasePage {
 
     private static final int DEFAULT_WAITING_TIMEOUT = 3;
 
-    private WebDriver driver;
+    protected WebDriver driver;
 
-    public WebDriverSteps(WebDriver driver) {
+    public BasePage(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(new HtmlElementDecorator(new HtmlElementLocatorFactory(driver)), this);
     }
 
-    public WebDriverSteps() {
+    BasePage() {
     }
 
-    public WebDriver getDriver() {
+    WebDriver getDriver() {
         return driver;
     }
 
@@ -72,7 +78,7 @@ public class WebDriverSteps {
         }
     }
 
-    public void sleep(int timeout) {
+    void sleep(int timeout) {
         try {
             Thread.sleep(timeout);
         } catch (InterruptedException e) {
@@ -80,14 +86,14 @@ public class WebDriverSteps {
         }
     }
 
-    public void clickIfExists(WebElement element) {
+    void clickIfExists(WebElement element) {
         try {
             element.click();
         } catch (NoSuchElementException e) {
         }
     }
 
-    public void elementExists(WebElement element) {
+    void elementExists(WebElement element) {
         assertThat(element + " is not displayed", element, should(exists()).whileWaitingUntil(TimeoutWaiter.timeoutHasExpired(SECONDS.toMillis(DEFAULT_WAITING_TIMEOUT))));
     }
 
@@ -117,7 +123,7 @@ public class WebDriverSteps {
         (new WebDriverWait(driver, timeoutInSeconds)).until(ExpectedConditions.elementToBeClickable(element));
     }
 
-    public String getElementText(WebElement element) {
+    String getElementText(WebElement element) {
         String text = element.getText();
         if (!"".equals(text)) {
             return Utils.clearString(text);
@@ -126,7 +132,7 @@ public class WebDriverSteps {
         }
     }
 
-    public void enterText(WebElement element, String text) {
+    void enterText(WebElement element, String text) {
         shouldSee(element);
         element.clear();
         element.sendKeys(text);
@@ -140,7 +146,7 @@ public class WebDriverSteps {
         assertThat("List is different size", list, hasSize(size));
     }
 
-    public String selectSimilarOption(WebElement element, String text) {
+    String selectSimilarOption(WebElement element, String text) {
         element.click();
         try {
             element.findElement(By.xpath(".//*[contains(text(),'" + text + "')]")).click();
@@ -149,5 +155,44 @@ public class WebDriverSteps {
             fail(text + " not found");
             return text;
         }
+    }
+
+    public String mergeToOneStringMultipleString(List<String> list) {
+        String mergedString = "";
+        for (String singleString : list) {
+            mergedString += singleString;
+            if (!list.get(list.size() - 1).equals(singleString))
+                mergedString += " ";
+        }
+        return mergedString;
+    }
+
+    public List<Veterinary> populateVeterinariansTable() {
+        List<Veterinary> veterinaries = new ArrayList<>();
+
+        Veterinary veterinary = new Veterinary("James Carter");
+        veterinaries.add(veterinary);
+
+        veterinary = new Veterinary("Helen Leary");
+        veterinary.getSpecialities().add("radiology");
+        veterinaries.add(veterinary);
+
+        veterinary = new Veterinary("Linda Douglas");
+        veterinary.getSpecialities().add("dentistry");
+        veterinary.getSpecialities().add("surgery");
+        veterinaries.add(veterinary);
+
+        veterinary = new Veterinary("Rafael Ortega");
+        veterinary.getSpecialities().add("surgery");
+        veterinaries.add(veterinary);
+
+        veterinary = new Veterinary("Henry Stevens");
+        veterinary.getSpecialities().add("radiology");
+        veterinaries.add(veterinary);
+
+        veterinary = new Veterinary("Sharon Jenkins");
+        veterinaries.add(veterinary);
+
+        return veterinaries;
     }
 }

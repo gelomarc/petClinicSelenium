@@ -1,14 +1,15 @@
 package com.petClinic.pages;
 
 import com.petClinic.blocks.*;
+import com.petClinic.entities.Owner;
+import com.petClinic.entities.Pet;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementDecorator;
-import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementLocatorFactory;
 
-public class FindOwnersPage {
+import static com.petClinic.utils.Utils.dateFormat;
+
+public class FindOwnersPage extends BasePage {
 
     private Menu menu;
 
@@ -30,7 +31,7 @@ public class FindOwnersPage {
     private OwnerInformation ownerInformation;
 
     public FindOwnersPage(WebDriver driver) {
-        PageFactory.initElements(new HtmlElementDecorator(new HtmlElementLocatorFactory(driver)), this);
+        super(driver);
     }
 
     public Menu getMenu() {
@@ -63,5 +64,21 @@ public class FindOwnersPage {
 
     public OwnerInformation getOwnerInformation() {
         return ownerInformation;
+    }
+
+    public void fillInAddOwnerForm(Owner owner) {
+        enterText(this.getAddOrEditOwnerForm().getFirstNameTextBox(), owner.getFirstName());
+        enterText(this.getAddOrEditOwnerForm().getLastNameTextBox(), owner.getLastName());
+        enterText(this.getAddOrEditOwnerForm().getAddressTextBox(), owner.getAddress());
+        enterText(this.getAddOrEditOwnerForm().getCityTextBox(), owner.getCity());
+        enterText(this.getAddOrEditOwnerForm().getTelephoneTextBox(), owner.getTelephone());
+        click(this.getAddOrEditOwnerForm().getAddOrEditOwnerButton());
+    }
+
+    public void fillInAddPetForm(Pet pet) {
+        enterText(this.getAddOrEditPetForm().getNameTextField(), pet.getName());
+        enterText(this.getAddOrEditPetForm().getBirthDateTextField(), dateFormat(pet.getBirthDate()));
+        selectSimilarOption(this.getAddOrEditPetForm().getPetTypeDropdown(), pet.getPetType().getPetType());
+        click(this.getAddOrEditPetForm().getAddPetButton());
     }
 }

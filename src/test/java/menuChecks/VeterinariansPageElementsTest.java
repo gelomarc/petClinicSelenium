@@ -3,7 +3,6 @@ package menuChecks;
 import com.petClinic.entities.Veterinary;
 import com.petClinic.pages.HomePage;
 import com.petClinic.pages.VeterinariansPage;
-import com.petClinic.steps.ClinicSteps;
 import com.petClinic.utils.ScreenshotOnFailTestRule;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -24,54 +23,53 @@ public class VeterinariansPageElementsTest {
 
     private static VeterinariansPage veterinariansPage = new VeterinariansPage(driver);
 
-    private static ClinicSteps steps = new ClinicSteps(driver);
     @ClassRule
     public static TestWatcher watcher = new TestWatcher() {
 
         @Override
         protected void starting(Description description) {
-            steps.getPage("localhost:8080");
-            steps.click(homePage.getMenu().getVeterinariansButton());
-            steps.waitForElementVisible(veterinariansPage.getViewAsJSONButton(), 2);
+            veterinariansPage.getPage("localhost:8080");
+            veterinariansPage.click(homePage.getMenu().getVeterinariansButton());
+            veterinariansPage.waitForElementVisible(veterinariansPage.getViewAsJSONButton(), 2);
         }
 
         @Override
         protected void finished(Description description) {
-            steps.quit();
+            veterinariansPage.quit();
         }
 
     };
-    private static List<Veterinary> veterinaries = steps.populateVeterinariansTable();
+    private static List<Veterinary> veterinaries = veterinariansPage.populateVeterinariansTable();
     @Rule
-    public TestWatcher testRule = new ScreenshotOnFailTestRule(steps);
+    public TestWatcher testRule = new ScreenshotOnFailTestRule(veterinariansPage);
 
 
     @Test
     public void shouldSeeTitle() {
-        steps.shouldSeeText(veterinariansPage.getCommonStaticElements().getTittleMessageLabel(), "Veterinarians");
+        veterinariansPage.shouldSeeText(veterinariansPage.getCommonStaticElements().getTittleMessageLabel(), "Veterinarians");
     }
 
     @Test
     public void shouldSeeAllVets() {
         for (int i = 0; i < veterinaries.size(); i++) {
-            steps.shouldSeeText(veterinariansPage.getVeterinarianListItems().get(i).getNameLabel(), veterinaries.get(i).getName());
+            veterinariansPage.shouldSeeText(veterinariansPage.getVeterinarianListItems().get(i).getNameLabel(), veterinaries.get(i).getName());
             for (int j = 0; j < veterinaries.get(i).getSpecialities().size(); j++)
-                steps.shouldSeeText(veterinariansPage.getVeterinarianListItems().get(i).getSpecialityLabels().get(j), veterinaries.get(i).getSpecialities().get(j));
+                veterinariansPage.shouldSeeText(veterinariansPage.getVeterinarianListItems().get(i).getSpecialityLabels().get(j), veterinaries.get(i).getSpecialities().get(j));
         }
     }
 
     @Test
     public void shouldSeeSpringImage() {
-        steps.shouldSee(veterinariansPage.getCommonStaticElements().getSpringImage());
+        veterinariansPage.shouldSee(veterinariansPage.getCommonStaticElements().getSpringImage());
     }
 
     @Test
     public void shouldSeeViewAsXML() {
-        steps.shouldSee(veterinariansPage.getViewAsXMLButton());
+        veterinariansPage.shouldSee(veterinariansPage.getViewAsXMLButton());
     }
 
     @Test
     public void shouldSeeViewAsJSON() {
-        steps.shouldSee(veterinariansPage.getViewAsJSONButton());
+        veterinariansPage.shouldSee(veterinariansPage.getViewAsJSONButton());
     }
 }

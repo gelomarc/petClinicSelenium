@@ -1,7 +1,6 @@
 package menuChecks;
 
 import com.petClinic.pages.HomePage;
-import com.petClinic.steps.WebDriverSteps;
 import com.petClinic.utils.ScreenshotOnFailTestRule;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -18,41 +17,39 @@ public class HomePageElementsTest {
 
     private static HomePage homePage = new HomePage(driver);
 
-    private static WebDriverSteps steps = new WebDriverSteps(driver);
-
     @ClassRule
     public static TestWatcher watcher = new TestWatcher() {
 
         @Override
         protected void starting(Description description) {
-            steps.getPage("localhost:8080");
-            steps.click(homePage.getMenu().getHomeButton());
-            steps.waitForElementVisible(homePage.getPetsImage(), 2);
+            homePage.getPage("localhost:8080");
+            homePage.click(homePage.getMenu().getHomeButton());
+            homePage.waitForElementVisible(homePage.getPetsImage(), 2);
         }
 
         @Override
         protected void finished(Description description) {
-            steps.quit();
+            homePage.quit();
         }
 
     };
 
     @Rule
-    public TestWatcher testRule = new ScreenshotOnFailTestRule(steps);
+    public TestWatcher testRule = new ScreenshotOnFailTestRule(homePage);
 
 
     @Test
     public void shouldSeeTitle() {
-        steps.shouldSeeText(homePage.getCommonStaticElements().getTittleMessageLabel(), "Welcome");
+        homePage.shouldSeeText(homePage.getCommonStaticElements().getTittleMessageLabel(), "Welcome");
     }
 
     @Test
     public void shouldSeePetsImage() {
-        steps.shouldSee(homePage.getPetsImage());
+        homePage.shouldSee(homePage.getPetsImage());
     }
 
     @Test
     public void shouldSeeSpringImage() {
-        steps.shouldSee(homePage.getCommonStaticElements().getSpringImage());
+        homePage.shouldSee(homePage.getCommonStaticElements().getSpringImage());
     }
 }
